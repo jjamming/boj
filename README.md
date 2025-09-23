@@ -1,2 +1,3 @@
 # boj
-This is an auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+
+백준, 프로그래머스 등 온라인 저지 문제 풀이를 모아둔 저장소입니다.  
