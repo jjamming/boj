@@ -12,7 +12,7 @@ for (let i = 1; i <= M; i++) {
 }
 
 for (let i = 1; i <= N; i++) {
-  graph.map((node) => node.sort((a, b) => a - b));
+  graph[i].sort((x, y) => x - y);
 }
 
 const dfsResult = [];
