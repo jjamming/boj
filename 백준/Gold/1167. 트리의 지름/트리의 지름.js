@@ -20,17 +20,17 @@ for (let i = 1; i <= n; i++) {
 let visited = Array(n + 1).fill(false);
 let dist = Array(n + 1).fill(0);
 
-function dfs(node, tmpDist) {
+function dfs(node) {
   visited[node] = true;
 
   for (let [next, weight] of edges[node]) {
     if (visited[next]) continue;
-    dist[next] = tmpDist + weight;
-    dfs(next, tmpDist + weight);
+    dist[next] = dist[node] + weight;
+    dfs(next);
   }
 }
 
-dfs(1, 0);
+dfs(1);
 
 let max = 0;
 let farthest = 0;
@@ -41,9 +41,13 @@ for (let i = 1; i <= n; i++) {
   }
 }
 
-visited = Array(n + 1).fill(false);
-dist = Array(n + 1).fill(0);
+visited.fill(false);
+dist.fill(0);
 
-dfs(farthest, 0);
+dfs(farthest);
 
-console.log(Math.max(...dist));
+let answer = 0;
+for (let i = 1; i <= n; i++) {
+  if (dist[i] > answer) answer = dist[i];
+}
+console.log(answer);
