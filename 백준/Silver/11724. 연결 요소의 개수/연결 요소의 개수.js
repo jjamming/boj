@@ -15,18 +15,18 @@ for (let i = 1; i <= M; i++) {
 }
 
 for (let i = 1; i <= N; i++) {
-  if (visited[i]) continue;
-
-  dfs(i);
-  graph++;
+  if (!visited[i]) {
+    dfs(i);
+    graph++;
+  }
 }
 
 function dfs(node) {
+  visited[node] = true;
   for (let adj of edges[node]) {
-    if (visited[adj]) continue;
-
-    visited[adj] = true;
-    dfs(adj);
+    if (!visited[adj]) {
+      dfs(adj);
+    }
   }
 }
 
