@@ -1,21 +1,17 @@
 function solution(prices) {
     const n = prices.length;
     const answer = Array(n).fill(0);
-    const stack = [];
     
-   for(let i = 0; i<n; i++){
-       while(stack.length && prices[stack[stack.length - 1]] > prices[i]){
-           const top = stack.pop();
-           answer[top] = i - top;
-       }
-       stack.push(i);
-   }
-    
-    while(stack.length) {
-        const top = stack.pop();
-        answer[top] = n - 1 - top;
+    for(let i = 0; i<n; i++){
+        let time = 0;
+        for(let j = i+1; j < n; j++){
+            time++;
+            if(prices[i] > prices[j]){
+                break;
+            }
+        }
+        answer[i] = time;
     }
-    
     
     return answer;
 }
