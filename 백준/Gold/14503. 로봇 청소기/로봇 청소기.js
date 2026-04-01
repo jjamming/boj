@@ -1,59 +1,44 @@
-//로봇 청소기 #14503
 const input = require("fs").readFileSync("/dev/stdin").toString().split("\n");
 
 const [N, M] = input[0].split(" ").map(Number);
 
-let [sx, sy, sd] = input[1].split(" ").map(Number);
+let [cx, cy, cd] = input[1].split(" ").map(Number);
 
 const matrix = [];
 
-for (let i = 2; i <= N + 1; i++) {
-  matrix.push(input[i].split(" ").map(Number));
+for (let i = 2; i < N + 2; i++) {
+  const line = input[i].split(" ").map(Number);
+  matrix.push(line);
 }
 
-const direction = [
-  [-1, 0], // N
-  [0, 1], // E
-  [1, 0], // S
-  [0, -1], // W
-];
+const dx = [-1, 0, 1, 0];
+const dy = [0, 1, 0, -1];
 
-let cleaned = 0;
-let isRunning = true;
+let count = 0;
 
-while (isRunning) {
-  // 청소
-  if (matrix[sx][sy] === 0) {
-    matrix[sx][sy] = 2;
-    cleaned++;
+while (true) {
+  if (matrix[cx][cy] === 0) {
+    matrix[cx][cy] = 2;
+    count++;
   }
 
-  let hasDirty = false;
-  for (let dir = 0; dir < 4; dir++) {
-    let [nx, ny] = [sx + direction[dir][0], sy + direction[dir][1]];
+  let moved = false;
+
+  for (let i = 0; i < 4; i++) {
+    cd = (cd + 3) % 4;
+    let [nx, ny] = [cx + dx[cd], cy + dy[cd]];
     if (matrix[nx][ny] === 0) {
-      // 4칸 중 청소되지 않은 칸이 있다면 break;
-      hasDirty = true;
+      [cx, cy] = [nx, ny];
+      moved = true;
       break;
     }
   }
 
-  if (hasDirty) {
-    // 반시계 회전
-    sd = (sd - 1 + 4) % 4;
-
-    let [fx, fy] = [sx + direction[sd][0], sy + direction[sd][1]];
-    if (matrix[fx][fy] === 0) {
-      [sx, sy] = [fx, fy];
-    }
-  } else {
-    let [bx, by] = [sx - direction[sd][0], sy - direction[sd][1]];
-    if (matrix[bx][by] !== 1) {
-      [sx, sy] = [bx, by];
-    } else {
-      isRunning = false;
-    }
+  if (!moved) {
+    let [bx, by] = [cx - dx[cd], cy - dy[cd]];
+    if (matrix[bx][by] === 1) break;
+    else [cx, cy] = [bx, by];
   }
 }
 
-console.log(cleaned);
+console.log(count);
